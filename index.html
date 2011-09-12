@@ -1,0 +1,32 @@
+<html>
+<head>
+	<title>jQuery Favicon Notifier</title>
+	<script type="text/javascript" src="../jquery-1.6.2.min.js"></script>
+	<script type="text/javascript" src="jquery.faviconNotify.js"></script>
+</head>
+<body>
+	<h1>jQuery Favicon Notifier</h1>
+	<p>A super simple plugin that renders a notification number to the favicon. You can set:</p>
+	<ul>
+		<li>the number</li>
+		<li>the position</li>
+		<li>the icon (any image type)</li>
+		<li>text and text-outline colors</li>
+	</ul>
+	<h2>Demoo!</h2>
+	<button onclick="$.faviconNotify('favicon.ico', Math.ceil(Math.random()*100));">Random number (keep clicking!)</button>
+	<button onclick="$.faviconNotify('favicon.ico', 100);">More than 99</button>
+	<button onclick="$.faviconNotify('favicon.ico', 0);">Zero</button>
+	<button onclick="$.faviconNotify('favicon.ico');">Reset the icon</button>
+	<button onclick="$.faviconNotify('favicon.ico', 12, 'tr');">Top Right</button>
+	<button onclick="$.faviconNotify('favicon.ico', 56, 'tl');">Top Left</button>
+	<button onclick="$.faviconNotify('favicon.ico', 45, 'bl');">Bottom Left</button>
+	<button onclick="$.faviconNotify('favicon.ico', 34, 'br');">Bottom Right</button>
+	<button onclick="$.faviconNotify('favicon.ico', 34, 'br', '#FFFFFF', '#000000');">Custom colors (inverted)</button>
+	<button onclick="$.faviconNotify('favicon.ico', 67, 'br', '#123456', '#ABCDEF');">Custom colors</button>
+	<button onclick="$.faviconNotify('favicon.ico', 78, 'br', '#000000', '#FFAAAA');">Custom colors</button>
+	<button onclick="$.faviconNotify('flask.png', 4, 'tr', '#FFFFFF', '#000000');">Different icon (flask, png)</button>
+	<button onclick="$.faviconNotify('pill.png', 9, 'br', '#FFFFFF', '#000000');">Different icon (pill, png)</button>
+	<p><a href="https://github.com/oodavid/jQuery-Favicon-Notifier">Grab the sources and whatnot on github</a></p>
+</body>
+</html>
