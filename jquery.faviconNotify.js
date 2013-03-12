@@ -16,33 +16,33 @@
  * @url			oodavid.com
  */
 (function($){
-    var canvas;
-    var bg		= '#000000';
-    var fg		= '#FFFFFF';
-    var pos		= 'br';
+	var canvas;
+	var bg		= '#000000';
+	var fg		= '#FFFFFF';
+	var pos		= 'br';
 	$.faviconNotify = function(icon, num, myPos, myBg, myFg){
-		// Use the correct options
+		// Default the positions
 		myPos	= myPos	|| pos;
 		myFg	= myFg	|| fg;
 		myBg	= myBg	|| bg;
 		// Create a canvas if we need one
 		canvas = canvas || $('<canvas />')[0];
-		if (canvas.getContext) {
-			// Load the favicon and manipulate it once it's loaded
-			var img = $('<img />')[0];
-			img.onload = function () {
-				// Get the canvas ready and fill with the original icon
+		if(canvas.getContext){
+			// Load the icon
+			$('<img />').load(function(e){
+				// Load the icon into the canvas
 				canvas.height = canvas.width = 16;
 				var ctx = canvas.getContext('2d');
 				ctx.drawImage(this, 0, 0);
 				// We gots num?
-				if(num != undefined){
+				if(num !== undefined){
+					num = parseFloat(num, 10);
 					// Convert the num into a glyphs array
+					var myGlyphs = [];
 					if(num > 99){
-						var myGlyphs = [glyphs['LOTS']];
+						myGlyphs.push(glyphs['LOTS']);
 					} else {
-						var myGlyphs = [];
-						num = num.toString();
+						num = num.toString().split('');
 						$.each(num, function(k,v){
 							myGlyphs.push(glyphs[v]);
 						});
@@ -53,7 +53,7 @@
 					$.each(myGlyphs, function(k,v){
 						for(y=0; y<glyphHeight; y++){
 							// First pass?
-							if(combined[y] == undefined) {
+							if(combined[y] === undefined) {
 								combined[y] = v[y];
 							} else {
 								// Merge the glyph parts, careful of the boundaries
@@ -84,8 +84,7 @@
 				// Update the favicon
 				$('link[rel$=icon]').replaceWith('');
 				$('head').append($('<link rel="shortcut icon" type="image/x-icon"/>').attr('href', canvas.toDataURL('image/png')));
-			};
-			img.src = icon;
+			}).attr('src', icon);
 		}
 	};
 	var glyphs	= {
