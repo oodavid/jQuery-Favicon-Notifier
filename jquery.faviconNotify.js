@@ -33,6 +33,7 @@
 				// Load the icon into the canvas
 				canvas.height = canvas.width = 16;
 				var ctx = canvas.getContext('2d');
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
 				ctx.drawImage(this, 0, 0);
 				// We gots num?
 				if(num !== undefined){
@@ -82,7 +83,7 @@
 					}
 				}
 				// Update the favicon
-				$('link[rel$=icon]').replaceWith('');
+				$('link[rel$=icon]').remove();
 				$('head').append($('<link rel="shortcut icon" type="image/x-icon"/>').attr('href', canvas.toDataURL('image/png')));
 			}).attr('src', icon);
 		}
