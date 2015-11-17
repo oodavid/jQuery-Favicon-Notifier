@@ -16,209 +16,49 @@
  * @url			oodavid.com
  */
 (function($){
-	var canvas;
-	var bg		= '#000000';
-	var fg		= '#FFFFFF';
-	var pos		= 'br';
+	// Create the canvas and set the defaults
+	var canvas = $('<canvas />').prop({ width: 16, height: 16 })[0],
+	    bg     = '#FFFFFF',
+	    fg     = '#000000',
+	    pos    = 'br';
+	// Our one and only export
 	$.faviconNotify = function(icon, num, myPos, myBg, myFg){
-		// Default the positions
-		myPos	= myPos	|| pos;
-		myFg	= myFg	|| fg;
-		myBg	= myBg	|| bg;
-		// Create a canvas if we need one
-		canvas = canvas || $('<canvas />')[0];
-		if(canvas.getContext){
-			// Load the icon
-			$('<img />').load(function(e){
-				// Load the icon into the canvas
-				canvas.height = canvas.width = 16;
-				var ctx = canvas.getContext('2d');
-				ctx.clearRect(0, 0, canvas.width, canvas.height);
-				ctx.drawImage(this, 0, 0);
-				// We gots num?
-				if(num !== undefined){
-					num = parseFloat(num, 10);
-					// Convert the num into a glyphs array
-					var myGlyphs = [];
-					if(num > 99){
-						myGlyphs.push(glyphs['LOTS']);
-					} else {
-						num = num.toString().split('');
-						$.each(num, function(k,v){
-							myGlyphs.push(glyphs[v]);
-						});
-					}
-					// Merge the glyphs together
-					var combined = [];
-					var glyphHeight = myGlyphs[0].length;
-					$.each(myGlyphs, function(k,v){
-						for(y=0; y<glyphHeight; y++){
-							// First pass?
-							if(combined[y] === undefined) {
-								combined[y] = v[y];
-							} else {
-								// Merge the glyph parts, careful of the boundaries
-								var l = combined[y].length;
-								if(combined[y][(l-1)] == ' '){
-									combined[y] = combined[y].substring(0, (l-1)) + v[y];
-								} else {
-									combined[y] += v[y].substring(1);
-								}
-							}
-						}
-					});
-					// Figure out our starting position
-					var glyphWidth = combined[0].length;
-					var x = (myPos.indexOf('l') != -1) ? 0 : (16 - glyphWidth);
-					var y = (myPos.indexOf('t') != -1) ? 0 : (16 - glyphHeight);
-					// Draw them pixels!
-					for(dX=0; dX<glyphWidth; dX++){
-						for(dY=0; dY<glyphHeight; dY++){
-							var pixel = combined[dY][dX];
-							if(pixel != ' '){
-								ctx.fillStyle = (pixel == '@') ? myFg : myBg;
-								ctx.fillRect((x+dX), (y+dY), 1, 1);
-							}
-						}
-					}
-				}
-				// Update the favicon
-				$('link[rel$=icon]').remove();
-				$('head').append($('<link rel="shortcut icon" type="image/x-icon"/>').attr('href', canvas.toDataURL('image/png')));
-			}).attr('src', icon);
+		var ctx = (canvas.getContext ? canvas.getContext('2d') : false);
+		if(!ctx){
+			console.warn('jQuery Favicon Notify disabled - browser does not support 2D canvas'); return;
 		}
-	};
-	var glyphs	= {
-		'0': [
-			'  ---  ',
-			' -@@@- ',
-			'-@---@-',
-			'-@- -@-',
-			'-@- -@-',
-			'-@- -@-',
-			'-@---@-',
-			' -@@@- ',
-			'  ---  ' ],
-		'1': [
-			'  -  ',
-			' -@- ',
-			'-@@- ',
-			' -@- ',
-			' -@- ',
-			' -@- ',
-			' -@- ',
-			'-@@@-',
-			' --- ' ],
-		'2': [
-			'  ---  ',
-			' -@@@- ',
-			'-@---@-',
-			' - --@-',
-			'  -@@- ',
-			' -@--  ',
-			'-@---- ',
-			'-@@@@@-',
-			' ----- ' ],
-		'3': [
-			'  ---  ',
-			' -@@@- ',
-			'-@---@-',
-			' - --@-',
-			'  -@@- ',
-			' - --@-',
-			'-@---@-',
-			' -@@@- ',
-			'  ---  ' ],
-		'4': [
-			'    -- ',
-			'   -@@-',
-			'  -@-@-',
-			' -@--@-',
-			'-@---@-',
-			'-@@@@@-',
-			' ----@-',
-			'    -@-',
-			'     - ' ],
-		'5': [
-			' ----- ',
-			'-@@@@@-',
-			'-@---- ',
-			'-@---  ',
-			'-@@@@- ',
-			' ----@-',
-			'-@---@-',
-			' -@@@- ',
-			'  ---  ' ],
-		'6': [
-			'  ---  ',
-			' -@@@- ',
-			'-@---@-',
-			'-@---- ',
-			'-@@@@- ',
-			'-@---@-',
-			'-@---@-',
-			' -@@@- ',
-			'  ---  ' ],
-		'7': [
-			' ----- ',
-			'-@@@@@-',
-			' ----@-',
-			'   -@- ',
-			'   -@- ',
-			'  -@-  ',
-			'  -@-  ',
-			'  -@-  ',
-			'   -   ' ],
-		'8': [
-			'  ---  ',
-			' -@@@- ',
-			'-@---@-',
-			'-@---@-',
-			' -@@@- ',
-			'-@---@-',
-			'-@---@-',
-			' -@@@- ',
-			'  ---  ' ],
-		'9': [
-			'  ---  ',
-			' -@@@- ',
-			'-@---@-',
-			'-@---@-',
-			' -@@@@-',
-			' ----@-',
-			'-@---@-',
-			' -@@@- ',
-			'  ---  ' ],
-		'!': [
-			' - ',
-			'-@-',
-			'-@-',
-			'-@-',
-			'-@-',
-			'-@-',
-			' - ',
-			'-@-',
-			' - ' ],
-		'.': [
-			'   ',
-			'   ',
-			'   ',
-			'   ',
-			'   ',
-			'   ',
-			' - ',
-			'-@-',
-			' - ' ],
-		'LOTS': [
-			' -   -- ---  -- ',
-			'-@- -@@-@@@--@@-',
-			'-@--@--@-@--@-  ',
-			'-@--@--@-@--@-  ',
-			'-@--@--@-@- -@- ',
-			'-@--@--@-@-  -@-',
-			'-@--@--@-@----@-',
-			'-@@@-@@--@-@@@- ',
-			' --- --  - ---  '
-		]
+		// Override the defaults
+		pos = myPos || pos;
+		fg  = myFg  || fg;
+		bg  = myBg  || bg;
+		// Load the icon, render, than add text
+		$('<img />').load(function(e){
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.drawImage(this, 0, 0, canvas.width, canvas.height);
+			// Do we have a value?
+			if(num !== undefined){
+				num = parseFloat(num, 10);
+				num = num > 99 ? '99+' : num;
+				// Deal with positioning
+				var x = (pos.indexOf('l') != -1) ? 1 : 15;
+				var y = (pos.indexOf('t') != -1) ? 1 : 15;
+				// Add the text
+				ctx.font          = '10px Arial, Helvetica, sans-serif';
+				ctx.textBaseline  = (pos.indexOf('t') != -1) ? 'hanging' : 'alphabetic';
+				ctx.textAlign     = (pos.indexOf('l') != -1) ? 'left' : 'right';
+				ctx.shadowColor   = bg;
+				ctx.shadowOffsetX = 0;
+				ctx.shadowOffsetY = 0;
+				ctx.shadowBlur    = 3;
+				ctx.lineWidth     = 2;
+				ctx.strokeStyle   = bg;
+				ctx.strokeText(num, x, y, 14);
+				ctx.fillStyle     = fg;
+				ctx.fillText(num, x, y, 14);
+			}
+			// Update the favicon
+			$('link[rel$=icon]').remove();
+			$('head').append($('<link rel="shortcut icon" type="image/x-icon"/>').attr('href', canvas.toDataURL('image/png')));
+		}).attr('src', icon);
 	};
 })(jQuery);
