@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <title>jQuery Favicon Notifier</title>
+    <link rel="shortcut icon" href="favicon.png">
+    <style>
+      button { padding: 5px; background-color: #FFFFFF; border: 1px solid #AAAAAA; }
+      img { vertical-align: middle; }
+    </style>
+  </head>
+  <body>
+    <h1>jQuery Favicon Notifier</h1>
+    <p><button onclick="demo1();"><img src="favicon.png" width="16" height="16" /> random number, top-right, default icon, default colors</button></p>
+    <p><button onclick="demo2();"><img src="facebook.ico" width="16" height="16" /> 8, bottom-left, facebook.ico, inverted colors</button></p>
+    <p><button onclick="demo3();"><img src="favicon.png" width="16" height="16" /> reset</button></p>
+    <p><button onclick="demo4();"><img src="pill.png" width="16" height="16" /> random number, default position, pill icon, matching colors</button></p>
+    <p><button onclick="demo5();"><img src="pill.png" width="16" height="16" /> non-numerical value</button></p>
+    <p><a href="https://github.com/oodavid/jQuery-Favicon-Notifier">Grab the sources and whatnot on github</a></p>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="./jquery.faviconNotify.js"></script>
+    <script>
+        // Keep a copy of the original favicon
+        var originalIcon = $('link[rel$=icon]').attr('href') || '/favicon.ico';
+        // Some demo functions
+        function demo1(){
+            $.faviconNotify({
+                icon:      originalIcon,
+                value:     Math.round(Math.random()*12),
+                position:  'tr'
+            });
+        }
+        function demo2(){
+            $.faviconNotify({
+                icon:      'facebook.ico',
+                value:     '8',
+                position:  'bl',
+                glowColor: '#000000',
+                textColor: '#FFFFFF'
+            });
+        }
+        function demo3(){
+            $.faviconNotify({
+                icon:      originalIcon
+            });
+        }
+        function demo4(){
+            $.faviconNotify({
+                icon:      'pill.png',
+                value:     Math.round(Math.random()*12),
+                glowColor: '#1a70b1',
+                textColor: '#ffedb3'
+            });
+        }
+        var yesno = 'no';
+        function demo5(){
+            yesno = (yesno=='yes'?'no':'yes');
+            $.faviconNotify({
+                icon:      'pill.png',
+                value:     yesno,
+                glowColor: '#000000',
+                textColor: '#FFFFFF'
+            });
+        }
+    </script>
+  </body>
+</html>
