@@ -1,67 +1,40 @@
-<!doctype html>
-<html>
-  <head>
-    <title>jQuery Favicon Notifier</title>
-    <link rel="shortcut icon" href="favicon.png">
-    <style>
-      html { font-family: sans-serif; }
-      button { padding: 5px; background-color: #FFFFFF; border: 1px solid #AAAAAA; }
-      img { vertical-align: middle; }
-    </style>
-  </head>
-  <body>
-    <h1>jQuery Favicon Notifier</h1>
-    <p><button onclick="demo1();"><img src="favicon.png" width="16" height="16" /> random number, top-right, default icon, default colors</button></p>
-    <p><button onclick="demo2();"><img src="facebook.ico" width="16" height="16" /> 8, bottom-left, facebook.ico, inverted colors</button></p>
-    <p><button onclick="demo3();"><img src="favicon.png" width="16" height="16" /> reset</button></p>
-    <p><button onclick="demo4();"><img src="pill.png" width="16" height="16" /> random number, default position, pill icon, matching colors</button></p>
-    <p><button onclick="demo5();"><img src="pill.png" width="16" height="16" /> non-numerical value</button></p>
-    <p><a href="https://github.com/oodavid/jQuery-Favicon-Notifier">Grab the sources and whatnot on github</a></p>
-    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="./jquery.faviconNotify.js"></script>
-    <script>
-        // Keep a copy of the original favicon
-        var originalIcon = $('link[rel$=icon]').attr('href') || '/favicon.ico';
-        // Some demo functions
-        function demo1(){
-            $.faviconNotify({
-                icon:      originalIcon,
-                value:     Math.round(Math.random()*12),
-                position:  'tr'
-            });
-        }
-        function demo2(){
-            $.faviconNotify({
-                icon:      'facebook.ico',
-                value:     '8',
-                position:  'bl',
-                glowColor: '#000000',
-                textColor: '#FFFFFF'
-            });
-        }
-        function demo3(){
-            $.faviconNotify({
-                icon:      originalIcon
-            });
-        }
-        function demo4(){
-            $.faviconNotify({
-                icon:      'pill.png',
-                value:     Math.round(Math.random()*12),
-                glowColor: '#1a70b1',
-                textColor: '#ffedb3'
-            });
-        }
-        var yesno = 'no';
-        function demo5(){
-            yesno = (yesno=='yes'?'no':'yes');
-            $.faviconNotify({
-                icon:      'pill.png',
-                value:     yesno,
-                glowColor: '#000000',
-                textColor: '#FFFFFF'
-            });
-        }
-    </script>
-  </body>
-</html>
+---
+layout: default
+title: "jQuery Favicon Notifier"
+github: https://github.com/oodavid/jQuery-Favicon-Notifier
+scripts:
+- ./jquery.faviconNotify.js
+- ./demo.js
+---
+<h1>{{page.title}}</h1>
+<p>A tiny jQuery plugin that allows you to push notifications to the favicon.</p>
+<p>For documentation and sources see <a target="_blank" href="https://github.com/oodavid/jQuery-Favicon-Notifier">jQuery-Favicon-Notifier on github</a>.</p>
+<h2>Demo <small>click the buttons and see the favicon update!</small></h2>
+<p>
+    Icon: 
+    <button onclick="setIcon(this);"><img src="/favicon.ico" width="16" height="16" /></button>
+    <button onclick="setIcon(this);"><img src="favicon.png" width="16" height="16" /></button>
+    <button onclick="setIcon(this);"><img src="facebook.ico" width="16" height="16" /></button>
+    <button onclick="setIcon(this);"><img src="pill.png" width="16" height="16" /></button>
+    <button onclick="setIcon(this);"><img src="gmail.png" width="16" height="16" /></button>
+</p>
+<p>
+    Text: 
+    <input onkeyup="setValue(this);" onchange="setValue(this);" onblur="setValue(this);" style="width: 50px;" id="myValue">
+    <button onclick="setRandomValue();">random</button>
+</p>
+<p>
+    Position: 
+    <button onclick="setPosition(this);">tl</button>
+    <button onclick="setPosition(this);">tr</button>
+    <button onclick="setPosition(this);">bl</button>
+    <button onclick="setPosition(this);">br</button>
+</p>
+<p>
+    Colors: 
+    <button onclick="setColors('#000000', '#FFFFFF');">A</button>
+    <button onclick="setColors('#FFFFFF', '#000000');">B</button>
+    <button onclick="setColors('#FFFFFF', '#FF0000');">C</button>
+    <button onclick="setColors('#123456', '#ABCDEF');">D</button>
+    <button onclick="setRandomColors();">randomise!</button>
+</p>
